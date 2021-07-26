@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+
+    @Styles.Render("~/Content/css")
+    <!-- Js Principal -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+    <!-- Loading -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/loading/jquery.loadingModal.css")" />
+
+</head>
+<body>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer class="footer" style="padding-top: 0px;padding-bottom: 2px;">
+            <div class="container text-center">
+                <strong>
+                    Tecnología desarrollada por  &nbsp;
+                </strong>
+                <strong><span class="text-danger">Alirio Márquez</span> </strong>
+            </div>
+        </footer>
+    </div>
+    @Scripts.Render("~/Content/Pluggins")
+
+    <script>
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+        });
+        $(document).on('ajaxStart', function () {
+
+            loading_show();
+        });
+
+        $(document).on('ajaxStop', function (start) {
+            loading_hide();
+        });
+
+        function loading_show() {
+            $('body').loadingModal({
+                text: 'Por favor espere',
+                animation: 'circle',
+            });
+            $('body').loadingModal('show');
+        }
+
+        function loading_hide() {
+            $('body').loadingModal('hide');
+        }
+
+    </script>
+
+    <!-- Loading -->
+    <script src="@Url.Content("~/Content/assets/loading/jquery.loadingModal.js")"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

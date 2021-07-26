@@ -1,0 +1,520 @@
+﻿@using TareaVisualkGroup.Models
+@model BusinessPartners
+
+@{
+    ViewBag.Title = "Listado de Socios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table.dataTable tbody td {
+        vertical-align: middle;
+        text-align: center;
+    }
+</style>
+<div class="row pb-3">
+    <div class="col-12 col-md-12">
+        <div class="card w-100">
+            <div class="card-body">
+                <form id="formbuscarSocio" class="pt-3 pb-3">
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-md-8 align-self-center">
+                            <h3 class="text-bold">Buscar socios de negocios por nombre </h3>
+                        </div>
+                        <div class="col-12 col-md-4 align-self-center">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-sm-9 col-md-12 col-lg-10">
+                                    <div class="input-group input-group-lg" style="width: 100%;">
+                                        <input type="text" name="nombreSocio" class="form-control float-right" id="nombreSocio" placeholder="Buscar">
+
+                                        <div class="input-group-append">
+                                            <button type="button" onclick="BucarSocio()" class="btn btn-secondary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12 col-md-12">
+        <div class="card w-100">
+            <div class="card-header pt-3 pb-3">
+                <div class="row">
+                    <div class="col align-self-center">
+                        <h4 class=" text-bold text-left mb-0">Listado de Socios</h4>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        <div class="btn-group" style="">
+                            <button id="btnAddOrder" class="btn btn-primary btn-lg text-lg text-bold text-right" data-toggle="modal" data-target="#modal_crearSocio" onclick="nuevo_socio()"><i class="fas fa-plus"> <span class="textoBoton"> Crear Socio</span></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="p-2 table-responsive">
+                        <table id="tableSocios" class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Socio</th>
+                                    <th>Tipo</th>
+                                    <th>RUT</th>
+                                    <th>Balance</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer pt-3 pb-3">
+                <div class="row">
+                    <div class="col align-self-center">
+                        <h4 class=" text-bold text-left mb-0">Listado de Socios</h4>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        <div class="btn-group" style="">
+                            <button id="btnAddOrder" class="btn btn-primary btn-lg text-lg text-bold text-right" data-toggle="modal" data-target="#modal_crearSocio" onclick="nuevo_socio()"><i class="fas fa-plus"> <span class="textoBoton"> Crear Socio</span></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_crearSocio">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header text-white">
+                <h4 class="modal-title" id="tituloModal">Crear Socio</h4>
+                <button type="button" class="close text-white" onclick="limpiarFormulario();" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form role="form" class="" id="formCrearSocio">
+                <div class="container-fluid pt-2">
+                    <div class="row ">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="Codigo">Código del socio:</label>
+                                @Html.TextBoxFor(model => model.CardCode, new { @class = "form-control imput", @id = "CardCode" })
+                            </div>
+                            <div class="form-group">
+                                <label for="pagina">Rut:</label>
+                                @Html.TextBoxFor(model => model.FederalTaxID, new { @class = "form-control imput", @id = "FederalTaxID" })
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Nombre:</label>
+                                @Html.TextBoxFor(model => model.CardName, new { @class = "form-control imput", @id = "CardName" })
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="hidden" class="form-control imput" name="CardType" id="CardType" value="C" />
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiarFormulario();" aria-label="Close">Descartar</button>
+                    <button type="button" class="btn btn-primary" onclick="CrearSocio()" id="nuevoSocio">Guardar</button>
+                    <button type="button" class="btn btn-info" onclick="EditarSocio()" id="editarSocio">Guardar</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+<div class="modal fade" id="modal_balance">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h4 class="modal-title" id="tituloModal">Estado de cuenta de balance</h4>
+                <button type="button" class="close text-white" onclick="" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+                <div class="container-fluid modal-body pt-2 pb-2">
+                    <div class="row ">
+
+                        <div class="col-sm-6 text-center">
+
+                            <h3 class="m-0" id="empresa">Empresa</h3>
+
+                        </div>
+                        <div class="col-sm-6 text-center">
+       
+                            <h3 class="m-0" style="font-weight: bold" id="balance">Balance</h3>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer justify-content-between text-right">
+
+                    <button type="button"  data-dismiss="modal" aria-label="Close" class="btn btn-primary" onclick="" id="nuevoSocio">ok</button>
+
+                </div>
+
+        </div>
+
+    </div>
+
+</div>
+@section scripts {
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input[name=nombreSocio]').forEach(node => node.addEventListener('keypress', e => {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    BucarSocio();
+                }
+            }))
+        });
+    var respuesta = '{}';
+    var lang = {
+
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+    var socio_json = JSON.parse(respuesta);
+         var urlGetSocios = "@Url.Action("GetListado", "SocioNegocio")";
+    var table = $('#tableSocios').DataTable();
+
+        function BucarSocio() {
+            $('#tableSocios').hide();
+            $('#tableSocios').DataTable().destroy();
+            var formContainer = $("#formbuscarSocio");
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("BuscarSocio", "SocioNegocio")',
+                data: formContainer.serialize(),
+                success: function (datos) {
+
+                    if (datos.isSuccess == true) {
+                        respuesta = datos.data;
+
+                        socio_json = respuesta;
+                        table = $('#tableSocios').DataTable({
+
+                            data: socio_json,
+                            columnDefs:
+                                [{
+                                    targets: [4],
+                                    orderable: false,
+                                    searchable: false
+                                },
+                                {
+                                    targets: [5],
+                                    orderable: false,
+                                    searchable: false
+                                },
+                                {
+                                    targets: [6],
+                                    orderable: false,
+                                    searchable: false
+                                },],
+                            columns: [
+                                { "data": "CardCode", "defaultContent": "" },
+                                { "data": "CardName", "defaultContent": "" },
+                                { "data": "CardType", "defaultContent": "" },
+                                { "data": "FederalTaxID", "defaultContent": "" },
+                                {
+                                    "render": function (data, type, row) {
+                                        return '  <a class="btn btn-primary  ver btn-md"  onclick="balance_socio(\'' + row.CardCode + '\',\'' + row.CardName + '\')" ><i class="far fa-eye"style="color: #fafafa;"></i></a>';
+                                    }
+                                },
+                                {
+                                    "render": function (data, type, row) {
+                                        return '<a class="btn btn-info btn-md  editar" style="color: #fafafa;" onclick="editar_socio(\'' + row.CardCode + '\',\'' + row.CardName + '\',\'' + row.FederalTaxID + '\')"><i class="fas fa-pencil-alt" ></i></a>';
+                                    }
+                                },
+                                {
+                                    "render": function (data, type, row) {
+                                        return '  <a class="btn btn-danger  eliminar btn-md" id="btn' + row.CardCode +'" onclick="eliminarSocio(\'' + row.CardCode + '\')"><i class="fas fa-times" style="color: #fafafa;"></i></a>';
+                                    }
+                                }
+
+                            ],
+                            "order": [],
+                            "lengthChange": true,
+                            "info": true,
+                            "autoWidth": false,
+                            "language": lang
+                        });
+
+                    } else {
+                        Swal.fire({
+                            title: "Alerta",
+                            text: datos.error,
+                            type: "error",
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Aceptar",
+                        });
+                    }
+
+                },
+                error: function (datos) {
+
+                    Swal.fire({
+                        title: "Alerta",
+                        text: datos.error,
+                        type: "error",
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Aceptar",
+                    });
+
+                },
+            });
+            $('#tableSocios').show();
+        }
+        function nuevo_socio() {
+            $(".modal-header").removeClass("bg-info");
+            $(".modal-header").addClass("bg-primary");
+            $("#tituloModal").html("Crear un nuevo Socio");
+
+            $("#CardCode").removeAttr("readonly");
+            $("#editarSocio").css("display", "none");
+            $("#nuevoSocio").css("display", "block");
+            limpiarFormulario();
+        }
+        function editar_socio(cod, name, rut) {
+            $(".modal-header").removeClass("bg-primary");
+            $(".modal-header").addClass("bg-info");
+            $("#tituloModal").html("Editar Socio");
+            $("#CardCode").val(cod);
+            $("#CardCode").attr("readonly", "readonly");
+            $("#CardName").val(name);
+            $("#FederalTaxID").val(rut);
+            $("#editarSocio").css("display", "block");
+            $("#nuevoSocio").css("display", "none");
+            $('#modal_crearSocio').modal('show');
+        }
+        function balance_socio(cod, empresa) {
+            
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("BalanceSocio", "SocioNegocio")',
+                data: { cod: cod },
+                success: function (datos) {
+
+                    if (datos.isSuccess == true) {
+                        var respuesta = JSON.parse(datos.data);
+                        $("#empresa").html(empresa);
+                        $("#balance").html(respuesta.value[0].CurrentAccountBalance);
+                        $('#modal_balance').modal('show');
+                    } else {
+                        Swal.fire({
+                            title: "Alerta",
+                            text: datos.error,
+                            type: "error",
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Aceptar",
+                        });
+                    }
+
+                },
+                error: function (datos) {
+
+                    Swal.fire({
+                        title: "Alerta",
+                        text: datos.error,
+                        type: "error",
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Aceptar",
+                    });
+
+                },
+            });
+
+        }
+    function CrearSocio() {
+        var formContainer = $("#formCrearSocio");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Crear", "SocioNegocio")',
+                data: formContainer.serialize(),
+                success: function (datos) {
+
+                    if (datos.isSuccess == true) {
+                        //GetSocios();
+
+                        var socio = JSON.parse(datos.data);
+                        $("#nombreSocio").val(socio["CardName"]);
+
+                        BucarSocio();
+
+                        toastr.success("Socio creado con éxito");
+                        limpiarFormulario();
+                    } else {
+
+                        Swal.fire({
+                            title: "Alerta",
+                            text: "Excepción del sistema: " + datos.error,
+                            type: "error",
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Aceptar",
+                        });
+                    }
+                },
+                error: function (datos) {
+                    Swal.fire({
+                        title: "Alerta",
+                        text: datos.error,
+                        type: "error",
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Aceptar",
+                    });
+
+                },
+            });
+
+        }
+        function EditarSocio() {
+        var formContainer = $("#formCrearSocio");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Edit", "SocioNegocio")',
+                data: formContainer.serialize(),
+                success: function (datos) {
+
+                    if (datos.isSuccess == true) {
+
+                        var socio = datos.data;
+                        $("#nombreSocio").val(socio["CardName"]);
+
+                        BucarSocio();
+
+                        toastr.success("Socio editado con éxito");
+                        limpiarFormulario();
+                    } else {
+
+                        Swal.fire({
+                            title: "Alerta",
+                            text: "Excepción del sistema: " + datos.error,
+                            type: "error",
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Aceptar",
+                        });
+                    }
+                },
+                error: function (datos) {
+                    Swal.fire({
+                        title: "Alerta",
+                        text: datos.error,
+                        type: "error",
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Aceptar",
+                    });
+
+                },
+            });
+
+        }
+        function eliminarSocio(cod) {
+            
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Confirma eliminar el socio de negocio: " + cod,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger bg-danger",
+                cancelButtonClass: "btn-secondary",
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+            }).then(function (isConfirm) {
+                if (isConfirm.value) {
+                $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete", "SocioNegocio")',
+                data: { cod: cod },
+                success: function (datos) {
+                    if (datos.isSuccess == true) {
+                        table.row($("#btn" + cod).parent().parent()).remove().draw();
+                    } else {
+                        Swal.fire({
+                            title: "Alerta",
+                            text: datos.error,
+                            type: "error",
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Aceptar",
+                        });
+                    }
+
+                },
+                error: function (datos) {
+                    Swal.fire({
+                        title: "Alerta",
+                        text: datos.error,
+                        type: "error",
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Aceptar",
+                    });
+
+                },
+            });
+                } else {
+
+                }
+            })
+            @*
+
+                *@
+        }
+    function limpiarFormulario() {
+        document.getElementById("formCrearSocio").reset();
+    }
+
+    $(document).ready(function () {
+
+        BucarSocio();
+
+
+        })
+    </script>
+}

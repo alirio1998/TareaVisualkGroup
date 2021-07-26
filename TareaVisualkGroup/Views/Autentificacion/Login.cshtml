@@ -1,0 +1,139 @@
+﻿@using TareaVisualkGroup.Models
+@model User
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/Content/plugins/fontawesome-free/css/all.min.css") ">
+<style>
+
+    .checkbox input[type=checkbox]:checked + .checkbox-material .check {
+        background: #3F51B5 !important;
+    }
+</style>
+<div class="wrapper wrapper-full-page">
+    <div class="full-page login-page" filter-color="black" data-image="@Url.Content("~/Content/dist/img/escritorio.jpg")">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-9 col-md-4 col-sm-6 col-xs-offset-2 col-md-offset-4 col-sm-offset-3 " style="padding: 0">
+                        @using (Html.BeginForm("Login", "Autentificacion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                        {
+                        <div class="card card-login card-hidden" style="margin-bottom: 4px;">
+                            <div class="card-header text-center" data-background-color="blue" style="background: -webkit-linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));background: linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));">
+                                <h4 class="card-title">Tarea VisualK Group</h4>
+                            </div>
+                            <h4 class="text-center" style="color:#000; font-weight: 700;margin: 0;">
+                                Iniciar Sesion
+
+                                @Html.ValidationSummary(true)
+                            </h4>
+                            <div class="text-danger text-center" id="error">
+                                @ViewBag.error
+                            </div>
+                            <div style="padding: 10px;padding-bottom: 0px;">
+                                <div class="card-content" style="  padding: 0px 10px 10px 30px;">
+
+
+
+                                    <div class="input-group">
+                                        <div class="form-group label-floating it">
+                                            @Html.LabelFor(model => model.Empresa, new { @class = "control-label " })
+                                            @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control imput", @id = "Empresa" })
+                                            @Html.ValidationMessageFor(model => model.Empresa)
+                                        </div>
+                                        <span class="input-group-addon ">
+                                            <i class="fas fa-building" style="color: #f9fafb;border: thin solid #b9b7b7;border: thin solid #b9b7b7;border-radius: 50%;background: -webkit-linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));background: linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));padding: .5em;"></i>
+                                        </span>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="form-group label-floating it ">
+                                            @Html.LabelFor(model => model.Usuario, new { @class = "control-label " })
+                                            @Html.TextBoxFor(model => model.Usuario, new { @class = "form-control imput", @id = "usuario" })
+                                            @Html.ValidationMessageFor(model => model.Usuario)
+                                        </div>
+                                        <span class="input-group-addon">
+                                            <i class="fas fa-user-alt" style="color: #f9fafb;border: thin solid #b9b7b7;border: thin solid #b9b7b7;border-radius: 50%;background: -webkit-linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));background: linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));padding: .5em;"></i>
+                                        </span>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="form-group label-floating ">
+                                            @Html.LabelFor(model => model.Pass, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Pass, new { @class = "form-control imput", @type = "password", @id = "Pass" })
+                                            @Html.ValidationMessageFor(model => model.Pass)
+                                        </div>
+                                        <span class="input-group-addon">
+                                            <i class="fas fa-address-book" style="color: #f9fafb;border: thin solid #b9b7b7;border: thin solid #b9b7b7;border-radius: 50%;background: -webkit-linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252));background: linear-gradient(91deg, rgb(0, 215, 255), rgb(74, 60, 252)); padding: .5em;"></i>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="text-center checkbox">
+                                    <label style="color: #000;     margin-left: 0px;">
+                                        <input type="checkbox" id="remember" />
+                                        <spam style="vertical-align: middle;">
+                                            Recordar
+                                        </spam>
+
+                                    </label>
+                                </div>
+                                <div class="footer text-center">
+                                    <button type="submit" class="btn btn-success" onclick="iniciar_sesion()">Acceder</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <footer class="footer" style="padding-top: 0px;padding-bottom: 2px;">
+                <div class="container text-center">
+                    <strong>
+                        Tecnologia desarrollada por  &nbsp;
+                    </strong>
+                    <strong><span class="text-danger">Alirio Márquez</span> </strong>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+
+    <script>
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        $(document).ready(function () {
+
+            if ("@ViewBag.Error" != "") {
+
+                toastr.error("@ViewBag.Error");
+
+
+            };
+        });
+
+        function iniciar_sesion() {
+            var ruc = $("#Empresa").val();
+            var usuario = $("#usuario").val();
+            var password = $("#Pass").val();
+            var remember = $("#remember")[0].checked;
+            var arreglo = new Array();
+
+            if (remember) {
+                arreglo = [ruc, usuario, password];
+                localStorage.setItem('arreglo', JSON.stringify(arreglo));
+            } else {
+                localStorage.clear();
+            }
+            document.forms[0].submit();
+        }
+
+
+    </script>
+}

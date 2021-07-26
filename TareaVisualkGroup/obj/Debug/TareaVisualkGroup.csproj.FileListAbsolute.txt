@@ -1,0 +1,2 @@
+R:\Proyectos\TareaVisualkGroup\TareaVisualkGroup\obj\Debug\TareaVisualkGroup.csprojAssemblyReference.cache
+R:\Proyectos\TareaVisualkGroup\TareaVisualkGroup\obj\Debug\TareaVisualkGroup.csproj.CoreCompileInputs.cache
