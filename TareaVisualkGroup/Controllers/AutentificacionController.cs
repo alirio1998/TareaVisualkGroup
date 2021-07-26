@@ -15,7 +15,11 @@ namespace TareaVisualkGroup.Controllers
     {
         public ActionResult Login()
         {
-            return View();
+            User oUser = new User();
+            oUser.Empresa = "VISUALK_CL";
+            oUser.Pass = "123qwe";
+            oUser.Usuario = "postulante2";
+            return View(oUser);
         }
 
         [HttpPost]

@@ -18,7 +18,12 @@ namespace TareaVisualkGroup.Controllers
         {
             return View();
         }
-
+        public ActionResult CerrarSession()
+        {
+            Session["B1SESSION"] = null;
+            Session["CompanyDB"] = null;
+            return RedirectToAction("Login", "Autentificacion");
+        }
         [HttpGet]
         public JsonResult BalanceSocio(string cod)
         {

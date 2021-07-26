@@ -216,10 +216,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/28/2018 13:04:24</publishTime>
     </File>
     <File Include="bin/TareaVisualkGroup.dll">
-      <publishTime>07/25/2021 19:58:17</publishTime>
+      <publishTime>07/26/2021 07:47:02</publishTime>
     </File>
     <File Include="bin/TareaVisualkGroup.pdb">
-      <publishTime>07/25/2021 19:58:17</publishTime>
+      <publishTime>07/26/2021 07:47:02</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:27:34</publishTime>
@@ -2511,7 +2511,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/22/2021 18:35:56</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/25/2021 19:57:17</publishTime>
+      <publishTime>07/26/2021 07:26:41</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutLogin.cshtml">
       <publishTime>07/23/2021 00:27:07</publishTime>
@@ -2529,7 +2529,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/22/2021 18:35:56</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/25/2021 19:58:18</publishTime>
+      <publishTime>07/26/2021 07:32:14</publishTime>
     </File>
   </ItemGroup>
 </Project>

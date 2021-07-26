@@ -5,14 +5,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <link rel="shortcut icon" href="@Url.Content("~/Content/img/C%23.ico")" type="image/x-icon" />
 
-    @Styles.Render("~/Content/css")
+
+    <link href="@Url.Content("~/Content/assets/loading/jquery.loadingModal.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/estilos.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/plugins/fontawesome-free/css/all.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/plugins/toastr/toastr.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/plugins/select2/css/select2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/plugins/datatables/dataTables.bootstrap4.css")" rel="stylesheet" />
+
     <!-- Js Principal -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="@Url.Content("~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
 
-    <!-- Loading -->
-    <link rel="stylesheet" href="@Url.Content("~/Content/assets/loading/jquery.loadingModal.css")" />
 
 </head>
 <body>
@@ -29,7 +39,12 @@
             </div>
         </footer>
     </div>
-    @Scripts.Render("~/Content/Pluggins")
+    <script src="@Url.Content("~/Content/dist/js/main.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/toastr/toastr.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/sweetalert2/sweetalert2.min.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/datatables/dataTables.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/jquery-validation/jquery.validate.min.js")"></script>
+
 
     <script>
         var Toast = Swal.mixin({
